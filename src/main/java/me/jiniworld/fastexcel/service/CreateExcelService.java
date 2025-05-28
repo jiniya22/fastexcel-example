@@ -12,6 +12,58 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreateExcelService {
 
+  public void createExcel1() {
+    Title title = Title.sample();
+    Content content = Content.sample();
+    try (OutputStream os = new FileOutputStream("output1.xlsx");
+        Workbook workbook = ExcelTableUtils.createWorkbook(os);
+        Worksheet ws = workbook.newWorksheet("Sheet1")) {
+      int totalColSize = 10;
+      ExcelTableUtils.initLayout(ws, totalColSize);
+
+      ExcelTableUtils.titleStyleSetter(ws, 0, 0, totalColSize).fontSize(18).set();
+      ws.value(0, 0, "Title");
+
+      ExcelTableUtils.applyTh(ws, 1, 0, 1, title.title1());
+      ExcelTableUtils.applyTd(ws, 1, 1, 4, content.data1());
+      ExcelTableUtils.applyTh(ws, 1, 5, 1, title.title2());
+      ExcelTableUtils.applyTd(ws, 1, 6, 3, content.data2());
+      ExcelTableUtils.applyTd(ws, 1, 9, 1, content.data2());
+
+      ExcelTableUtils.applyTh(ws, 2, 0, 1, title.title3());
+      ExcelTableUtils.applyTd(ws, 2, 1, 9, content.data3());
+
+      ExcelTableUtils.applyTh(ws, 3, 0, 1, title.title4());
+      ExcelTableUtils.applyTd(ws, 3, 1, 9, content.data4());
+
+      ExcelTableUtils.applyTh(ws, 4, 0, 1, title.title5());
+      ExcelTableUtils.applyTd(ws, 4, 1, 4, content.data5());
+      ExcelTableUtils.applyTh(ws, 4, 5, 1, title.title6());
+      ExcelTableUtils.applyTd(ws, 4, 6, 4, content.data6());
+
+      ExcelTableUtils.applyTh(ws, 5, 0, 1, title.title7());
+      ExcelTableUtils.applyTd(ws, 5, 1, 4, content.data7());
+      ExcelTableUtils.applyTh(ws, 5, 5, 1, title.title8());
+      ExcelTableUtils.applyTd(ws, 5, 6, 3, content.data8());
+      ExcelTableUtils.applyTd(ws, 5, 9, 1, content.data8());
+
+      ExcelTableUtils.applyTh(ws, 6, 0, 1, title.title9());
+      ExcelTableUtils.applyTd(ws, 6, 1, 4, content.data9());
+      ExcelTableUtils.applyTh(ws, 6, 5, 1, title.title10());
+      ExcelTableUtils.applyTd(ws, 6, 6, 4, content.data10());
+
+      ExcelTableUtils.applyTh(ws, 7, 0, 1, title.title11());
+      ExcelTableUtils.applyTd(ws, 7, 1, 4, content.data11());
+      ExcelTableUtils.applyTh(ws, 7, 5, 1, title.title12());
+      ExcelTableUtils.applyTd(ws, 7, 6, 2, content.data12());
+      ExcelTableUtils.applyTh(ws, 7, 8, 1, title.title13());
+      ExcelTableUtils.applyTd(ws, 7, 9, 1, content.data13());
+
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   public void createExcel4() {
     Title title = Title.sample();
     Content content = Content.sample();

@@ -13,6 +13,12 @@ public class ExcelController {
   private final CreateExcelService createExcelService;
 
   @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping("/type1")
+  public void createExcel1() {
+    createExcelService.createExcel1();
+  }
+
+  @ResponseStatus(HttpStatus.CREATED)
   @PostMapping("/type4")
   public void createExcel4() {
     createExcelService.createExcel4();
