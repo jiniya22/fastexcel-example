@@ -3,6 +3,7 @@ package me.jiniworld.fastexcel.service;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import me.jiniworld.fastexcel.common.ExcelCreateException;
 import me.jiniworld.fastexcel.domain.Content;
 import me.jiniworld.fastexcel.domain.CustomStyle;
 import me.jiniworld.fastexcel.domain.Title;
@@ -63,7 +64,7 @@ public class CreateExcelService {
       ExcelTableUtils.applyTd(ws, 8, 1, 2, 9, content.data14());
 
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new ExcelCreateException();
     }
   }
 
@@ -130,9 +131,8 @@ public class CreateExcelService {
       ExcelTableUtils.applyTd(ws, 14, 1, 1, 2, null);
       ExcelTableUtils.applyTd(ws, 14, 3, 1, 3, null);
       ExcelTableUtils.applyTd(ws, 14, 6, 1, 2, null);
-
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new ExcelCreateException();
     }
   }
 }
