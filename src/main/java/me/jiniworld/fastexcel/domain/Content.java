@@ -14,7 +14,11 @@ public record Content(
     String data11,
     String data12,
     String data13,
-    String data14) {
+    String data14,
+    String data15,
+    String data16,
+    String data17,
+    String data18) {
   public static Content sample() {
     return new Content(
         "d1",
@@ -26,10 +30,14 @@ public record Content(
         "d7",
         "d8",
         "d9",
-        "https://blog.jiniworld.me/",
+        "d10",
         "d11",
         "d12",
         "d13",
-        "d14");
+        "https://blog.jiniworld.me/",
+        "d15",
+        "d16",
+        "d17",
+        "d18");
   }
 }
