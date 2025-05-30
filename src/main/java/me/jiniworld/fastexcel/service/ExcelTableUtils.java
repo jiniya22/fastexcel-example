@@ -20,7 +20,7 @@ public class ExcelTableUtils {
     ws.value(row, col, value);
   }
 
-  public void applyCustomTd(
+  public void applyTd(
       Worksheet ws,
       int row,
       int col,
