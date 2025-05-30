@@ -10,19 +10,25 @@ public class ExcelTableUtils {
 
   private final String TITLE_COLOR_BACKGROUND = "002060";
 
-  public void applyTh(Worksheet ws, int row, int col, int colspan, String value) {
-    titleStyleSetter(ws, row, col, colspan).set();
+  public void applyTh(Worksheet ws, int row, int col, int rowspan, int colspan, String value) {
+    titleStyleSetter(ws, row, col, rowspan, colspan).set();
     ws.value(row, col, value);
   }
 
-  public void applyTd(Worksheet ws, int row, int col, int colspan, String value) {
-    commonStyleSetter(ws, row, col, colspan).set();
+  public void applyTd(Worksheet ws, int row, int col, int rowspan, int colspan, String value) {
+    commonStyleSetter(ws, row, col, rowspan, colspan).set();
     ws.value(row, col, value);
   }
 
   public void applyCustomTd(
-      Worksheet ws, int row, int col, int colspan, String value, CustomStyle customStyle) {
-    var style = commonStyleSetter(ws, row, col, colspan);
+      Worksheet ws,
+      int row,
+      int col,
+      int rowspan,
+      int colspan,
+      String value,
+      CustomStyle customStyle) {
+    var style = commonStyleSetter(ws, row, col, rowspan, colspan);
 
     if (customStyle.fontColor() != null) {
       style.fontColor(customStyle.fontColor());
@@ -55,8 +61,9 @@ public class ExcelTableUtils {
     }
   }
 
-  private StyleSetter commonStyleSetter(Worksheet ws, int row, int col, int colspan) {
-    return ws.range(row, col, row, col + (colspan > 0 ? colspan - 1 : 0))
+  private StyleSetter commonStyleSetter(Worksheet ws, int row, int col, int rowspan, int colspan) {
+    return ws.range(
+            row, col, row + (rowspan > 0 ? rowspan - 1 : 0), col + (colspan > 0 ? colspan - 1 : 0))
         .style()
         .borderColor("d4d4d4")
         .borderStyle(BorderStyle.THIN)
@@ -64,8 +71,8 @@ public class ExcelTableUtils {
         .merge();
   }
 
-  public StyleSetter titleStyleSetter(Worksheet ws, int row, int col, int colspan) {
-    return commonStyleSetter(ws, row, col, colspan)
+  public StyleSetter titleStyleSetter(Worksheet ws, int row, int col, int rowspan, int colspan) {
+    return commonStyleSetter(ws, row, col, rowspan, colspan)
         .fillColor(TITLE_COLOR_BACKGROUND)
         .fontColor(Color.WHITE)
         .bold()
