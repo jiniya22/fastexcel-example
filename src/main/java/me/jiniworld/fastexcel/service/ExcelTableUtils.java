@@ -62,6 +62,9 @@ public class ExcelTableUtils {
   }
 
   private StyleSetter commonStyleSetter(Worksheet ws, int row, int col, int rowspan, int colspan) {
+    System.out.printf(
+        "%d %d %d %d%n",
+        row, col, row + (rowspan > 0 ? rowspan - 1 : 0), col + (colspan > 0 ? colspan - 1 : 0));
     return ws.range(
             row, col, row + (rowspan > 0 ? rowspan - 1 : 0), col + (colspan > 0 ? colspan - 1 : 0))
         .style()

@@ -5,8 +5,40 @@ import org.dhatim.fastexcel.Color;
 
 @Builder
 public record CustomStyle(
-    String horizontalAlignment, String fontColor, boolean isBold, boolean isLink) {
+    String horizontalAlignment,
+    String fillColor,
+    String fontColor,
+    Integer fontSize,
+    boolean isBold,
+    boolean isLink) {
   public static final String ALIGNMENT_CENTER = "center";
+
+  public static CustomStyle titleStyle(CustomStyle customStyle) {
+    final CustomStyle basicTitleStyle =
+        CustomStyle.builder()
+            .horizontalAlignment(ALIGNMENT_CENTER)
+            .fillColor("002060")
+            .fontSize(9)
+            .fontColor(Color.WHITE)
+            .isBold(true)
+            .build();
+    if (customStyle == null) {
+      return basicTitleStyle;
+    }
+    return CustomStyle.builder()
+        .horizontalAlignment(
+            customStyle.horizontalAlignment() == null
+                ? basicTitleStyle.horizontalAlignment
+                : customStyle.horizontalAlignment)
+        .fillColor(
+            customStyle.fillColor == null ? basicTitleStyle.fillColor : customStyle.fillColor)
+        .fontColor(
+            customStyle.fontColor == null ? basicTitleStyle.fontColor : customStyle.fontColor)
+        .fontSize(customStyle.fontSize == null ? basicTitleStyle.fontSize : customStyle.fontSize)
+        .isBold(customStyle.isBold())
+        .isLink(customStyle.isLink())
+        .build();
+  }
 
   /** 가운데 정렬 */
   public static CustomStyle style1() {
@@ -35,5 +67,10 @@ public record CustomStyle(
   /** font색 red */
   public static CustomStyle style5() {
     return CustomStyle.builder().fontColor(Color.RED).build();
+  }
+
+  /** 폰트 지정 && 글씨체 두껍게 */
+  public static CustomStyle style6(int fontSize) {
+    return CustomStyle.builder().isBold(true).fontSize(fontSize).build();
   }
 }
