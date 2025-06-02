@@ -1,18 +1,27 @@
 package me.jiniworld.fastexcel.service;
 
-import lombok.RequiredArgsConstructor;
 import me.jiniworld.fastexcel.domain.Cell;
 import me.jiniworld.fastexcel.domain.CustomStyle;
 import org.dhatim.fastexcel.*;
 
-@RequiredArgsConstructor
-public class ExcelTableService {
+public class ExcelTable {
+  private static final int COLUMN_WIDTH = 12;
+
   private final Worksheet ws;
   private final int totalColSize;
   private int top;
   private int left;
   private int bottom;
   private int right;
+
+  public ExcelTable(Worksheet ws, int totalColSize) {
+    this.ws = ws;
+    this.totalColSize = totalColSize;
+
+    for (int i = 0; i < totalColSize; i++) {
+      ws.width(i, COLUMN_WIDTH);
+    }
+  }
 
   public void applyTh(Cell cell) {
     commonStyleSetter(
