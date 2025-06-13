@@ -22,7 +22,7 @@ public class CreateExcelService {
         Worksheet ws = workbook.newWorksheet("Sheet1")) {
       final int TOTAL_COL_SIZE = 10;
 
-      ExcelTable e = new ExcelTable(ws, TOTAL_COL_SIZE, true);
+      ExcelTable e = new ExcelTable(ws, TOTAL_COL_SIZE, 12, true);
       e.applyTh(Cell.of(TOTAL_COL_SIZE, 1, "Title", CustomStyle.style6(18)));
 
       e.applyTh(Cell.of(1, 1, title.title1()));
@@ -117,6 +117,59 @@ public class CreateExcelService {
     }
   }
 
+  public void createExcel2() {
+    Title title = Title.sample();
+    Content content = Content.sample();
+    try (OutputStream os = new FileOutputStream("output2.xlsx");
+        Workbook workbook = createWorkbook(os);
+        Worksheet ws = workbook.newWorksheet("Sheet1")) {
+      final int TOTAL_COL_SIZE = 17;
+
+      ExcelTable e = new ExcelTable(ws, TOTAL_COL_SIZE, 16, false);
+      e.applyTh(Cell.of(11, 1, "Title"));
+      e.lineWrap();
+
+      e.applyTh(Cell.of(2, 1, title.title1()));
+      e.applyTd(Cell.of(2, 1, content.data1()));
+      e.applyTh(Cell.of(3, 1, title.title2()));
+      e.applyTd(Cell.of(2, 1, content.data2()));
+      e.applyTh(Cell.of(1, 1, title.title3()));
+      e.applyTd(Cell.of(1, 1, content.data3()));
+      e.lineWrap();
+
+      e.applyTh(Cell.of(2, 1, title.title4()));
+      e.applyTd(Cell.of(2, 1, content.data4()));
+      e.applyTh(Cell.of(3, 1, title.title5()));
+      e.applyTd(Cell.of(2, 1, content.data5()));
+      e.lineWrap();
+
+      e.applyTh(Cell.of(2, 1, title.title6()));
+      e.applyTd(Cell.of(2, 1, content.data6()));
+      e.applyTh(Cell.of(3, 1, title.title7()));
+      e.applyTd(Cell.of(2, 1, content.data7()));
+      e.lineWrap();
+      e.lineWrap();
+
+      e.applyTh(Cell.of(TOTAL_COL_SIZE, 1, "Info"));
+      e.lineWrap();
+
+      for (int i = 0; i < TOTAL_COL_SIZE; i++) {
+        e.applyTh(Cell.of(1, 1, title.title8(), CustomStyle.style7()));
+      }
+      e.lineWrap();
+
+      for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < TOTAL_COL_SIZE; j++) {
+          e.applyTd(Cell.of(1, 1, "-"));
+        }
+        e.lineWrap();
+      }
+
+    } catch (IOException e) {
+      throw new ExcelCreateException();
+    }
+  }
+
   public void createExcel4() {
     Title title = Title.sample();
     Content content = Content.sample();
@@ -124,7 +177,7 @@ public class CreateExcelService {
         Workbook workbook = createWorkbook(os);
         Worksheet ws = workbook.newWorksheet("Sheet1")) {
       final int TOTAL_COL_SIZE = 8;
-      ExcelTable e = new ExcelTable(ws, TOTAL_COL_SIZE, true);
+      ExcelTable e = new ExcelTable(ws, TOTAL_COL_SIZE, 12, true);
       e.applyTh(Cell.of(TOTAL_COL_SIZE, 1, "Title", CustomStyle.style6(18)));
 
       e.applyTh(Cell.of(1, 1, title.title1()));

@@ -5,7 +5,6 @@ import me.jiniworld.fastexcel.domain.CustomStyle;
 import org.dhatim.fastexcel.*;
 
 public class ExcelTable {
-  private static final int COLUMN_WIDTH = 12;
 
   private final Worksheet ws;
   private final int totalColSize;
@@ -16,13 +15,13 @@ public class ExcelTable {
   private int right;
   private Cell tempCell; // autoLine() 에서 활용하기 위해 임시 저장하는 값
 
-  public ExcelTable(Worksheet ws, int totalColSize, boolean autoLineWrap) {
+  public ExcelTable(Worksheet ws, int totalColSize, int columWidth, boolean autoLineWrap) {
     this.ws = ws;
     this.totalColSize = totalColSize;
     this.autoLineWrap = autoLineWrap;
 
     for (int i = 0; i < totalColSize; i++) {
-      ws.width(i, COLUMN_WIDTH);
+      ws.width(i, columWidth);
     }
   }
 
