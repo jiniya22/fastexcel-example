@@ -1,6 +1,6 @@
 package me.jiniworld.fastexcel.domain;
 
-public record Cell(int colSize, int rowSize, String value, CustomStyle style) {
+public record Cell(int colSize, int rowSize, CellType cellType, String value, CustomStyle style) {
 
   public Cell {
     if (colSize < 1 || rowSize < 1) {
@@ -8,11 +8,24 @@ public record Cell(int colSize, int rowSize, String value, CustomStyle style) {
     }
   }
 
-  public static Cell of(int colSize, int rowSize, String value) {
-    return new Cell(colSize, rowSize, value, null);
+  public static Cell of(int colSize, int rowSize, Object value) {
+    return new Cell(colSize, rowSize, getCellType(value), convertString(value), null);
   }
 
-  public static Cell of(int colSize, int rowSize, String value, CustomStyle style) {
-    return new Cell(colSize, rowSize, value, style);
+  public static Cell of(int colSize, int rowSize, Object value, CustomStyle style) {
+    return new Cell(colSize, rowSize, getCellType(value), convertString(value), style);
+  }
+
+  private static CellType getCellType(Object value) {
+    return value instanceof Number ? CellType.NUMERIC : CellType.STRING;
+  }
+
+  private static String convertString(Object value) {
+    return value == null ? null : value.toString();
+  }
+
+  public enum CellType {
+    NUMERIC,
+    STRING
   }
 }

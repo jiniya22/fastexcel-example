@@ -9,14 +9,17 @@ public class ExcelTable {
 
   private final Worksheet ws;
   private final int totalColSize;
+  private final boolean autoLineWrap; //  자동 row 바꿈 (지정한 col 수를 채웠을 경우 다음 row로 자동 이동)
   private int top;
   private int left;
   private int bottom;
   private int right;
+  private Cell tempCell; // autoLine() 에서 활용하기 위해 임시 저장하는 값
 
-  public ExcelTable(Worksheet ws, int totalColSize) {
+  public ExcelTable(Worksheet ws, int totalColSize, boolean autoLineWrap) {
     this.ws = ws;
     this.totalColSize = totalColSize;
+    this.autoLineWrap = autoLineWrap;
 
     for (int i = 0; i < totalColSize; i++) {
       ws.width(i, COLUMN_WIDTH);
@@ -25,7 +28,7 @@ public class ExcelTable {
 
   public void applyTh(Cell cell) {
     commonStyleSetter(
-            new Cell(
+            Cell.of(
                 cell.colSize(), cell.rowSize(), cell.value(), CustomStyle.titleStyle(cell.style())))
         .set();
   }
@@ -54,6 +57,9 @@ public class ExcelTable {
     if (customStyle.isBold()) {
       style.bold();
     }
+    if (customStyle.isWrapText()) {
+      style.wrapText(true);
+    }
     if (customStyle.isLink()) {
       ws.hyperlink(top, left, new HyperLink(cell.value(), cell.value()));
       style.fontColor("0000FF").underlined();
@@ -61,24 +67,36 @@ public class ExcelTable {
   }
 
   private StyleSetter commonStyleSetter(Cell cell) {
+    tempCell = cell;
     bottom = top + cell.rowSize() - 1;
     right = left + cell.colSize() - 1;
     var result =
         ws.range(top, left, bottom, right)
             .style()
+            .fontSize(CustomStyle.DEFAULT_FONT_SIZE)
             .borderColor("d4d4d4")
             .borderStyle(BorderStyle.THIN)
-            .verticalAlignment(CustomStyle.ALIGNMENT_CENTER)
+            .horizontalAlignment("left")
+            .verticalAlignment(CustomStyle.DEFAULT_ALIGNMENT)
             .merge();
-    ws.value(top, left, cell.value());
+    if (Cell.CellType.NUMERIC == cell.cellType()) {
+      ws.value(top, left, Long.parseLong(cell.value()));
+    } else {
+      ws.value(top, left, cell.value());
+    }
+
     left += cell.colSize();
-    if (right >= totalColSize - 1) {
-      top += cell.rowSize();
-      left = 0;
-      bottom = top;
-      right = 0;
+    if (this.autoLineWrap && right >= totalColSize - 1) {
+      lineWrap();
     }
     applyStyle(cell, result);
     return result;
+  }
+
+  void lineWrap() {
+    top += this.tempCell.rowSize();
+    left = 0;
+    bottom = top;
+    right = 0;
   }
 }

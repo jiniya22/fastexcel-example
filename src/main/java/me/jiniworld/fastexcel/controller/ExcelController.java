@@ -19,12 +19,6 @@ public class ExcelController {
   }
 
   @ResponseStatus(HttpStatus.CREATED)
-  @PostMapping("/type3")
-  public void createExcel3() {
-    createExcelService.createExcel3();
-  }
-
-  @ResponseStatus(HttpStatus.CREATED)
   @PostMapping("/type4")
   public void createExcel4() {
     createExcelService.createExcel4();
